@@ -1,0 +1,17 @@
+{
+  "name": "clase5",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "BrunoRios",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cowsay": "^1.6.0",
+    "picocolors": "^1.1.1"
+  }
+}
