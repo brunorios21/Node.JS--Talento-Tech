@@ -36,3 +36,64 @@ En este proyecto puedes ejecutar los siguientes comandos:
 
 * `npm start`: Inicia la aplicacion utilizando Node.js de forma estandar.
 * `npm run dev`: Inicia el entorno de desarrollo utilizando Nodemon para la recarga automatica de los archivos.
+
+## Análisis de la Clase 9 (Basado en el PDF)
+
+A continuación, se detalla el análisis del contenido teórico y práctico cubierto en el documento de la clase.
+
+### 1. Servidor Web: Node Nativo vs Express.js
+
+Inicialmente, levantar un servidor web utilizando el módulo nativo `http` de Node.js requiere un manejo manual de las rutas y tipos de contenido. **Express.js** soluciona esto al ser un framework minimalista que ofrece:
+* **Simplicidad:** API intuitiva para definir rutas (`app.get()`, `app.post()`).
+* **Flexibilidad:** Uso de middlewares para extender funcionalidades.
+
+#### Diagrama de Secuencia: Comparativa de Peticiones
+
+```mermaid
+sequenceDiagram
+    participant Cliente
+    participant Node Nativo (http)
+    participant Express.js
+    
+    Cliente->>Node Nativo (http): GET /productos
+    Note over Node Nativo (http): Requiere parseo manual de URL e if/else
+    Node Nativo (http)->>Cliente: res.end('Lista de productos')
+    
+    Cliente->>Express.js: GET /productos
+    Note over Express.js: Enrutamiento directo con app.get('/productos')
+    Express.js->>Cliente: res.send(productosJSON)
+```
+
+### 2. Servidor de Archivos Estáticos
+
+Express permite servir recursos estáticos (HTML, CSS, JS, imágenes) desde una carpeta, generalmente llamada `public`. Esto se logra configurando el middleware integrado `express.static`.
+
+### 3. Middlewares: El Corazón de Express
+
+Los **middlewares** son funciones que interceptan las peticiones antes de llegar a la ruta final. Tienen acceso a la petición (`req`), la respuesta (`res`) y a la función `next()` para pasar el control al siguiente middleware en la cadena.
+
+Existen varios tipos:
+* **De aplicación:** Globales para toda la app.
+* **De ruta:** Específicos para un endpoint.
+* **De terceros:** Librerías externas (ej. `cors`).
+* **Integrados:** Como `express.static`.
+
+#### Diagrama de Flujo: Ciclo de Vida con Middlewares
+
+```mermaid
+flowchart TD
+    Req([Petición del Cliente]) --> MW1[Middleware Global \n app.use]
+    MW1 -->|Llama a next()| MW2{Middleware Estático \n express.static}
+    MW2 -->|Encuentra archivo| Res1([Retorna Archivo Estático])
+    MW2 -->|No encuentra, next()| Route{Enrutador \n app.get / app.post}
+    Route -->|Ruta Coincide| Handler[Controlador de la Ruta]
+    Handler --> Res2([Genera Respuesta Dinámica])
+    Route -->|Ruta No Coincide| Err[Middleware Manejo Errores 404]
+    Err --> Res3([Retorna Error al Cliente])
+```
+
+### 4. Express Generator y Misiones
+
+Para proyectos escalables, **Express Generator** crea automáticamente la estructura base (`routes`, `views`, `public`).
+La clase culmina con misiones prácticas para configurar `npm init`, Git, `.gitignore` y el primer servidor básico en el puerto `3000` con Express.
+
