@@ -82,13 +82,13 @@ Existen varios tipos:
 
 ```mermaid
 flowchart TD
-    Req([Petición del Cliente]) --> MW1[Middleware Global \n app.use]
-    MW1 -->|Llama a next()| MW2{Middleware Estático \n express.static}
+    Req([Petición del Cliente]) --> MW1["Middleware Global (app.use)"]
+    MW1 -->|Llama a next| MW2{"Middleware Estático (express.static)"}
     MW2 -->|Encuentra archivo| Res1([Retorna Archivo Estático])
-    MW2 -->|No encuentra, next()| Route{Enrutador \n app.get / app.post}
-    Route -->|Ruta Coincide| Handler[Controlador de la Ruta]
+    MW2 -->|No encuentra, llama next| Route{"Enrutador (app.get / app.post)"}
+    Route -->|Ruta Coincide| Handler["Controlador de la Ruta"]
     Handler --> Res2([Genera Respuesta Dinámica])
-    Route -->|Ruta No Coincide| Err[Middleware Manejo Errores 404]
+    Route -->|Ruta No Coincide| Err["Middleware Manejo Errores 404"]
     Err --> Res3([Retorna Error al Cliente])
 ```
 
@@ -96,4 +96,3 @@ flowchart TD
 
 Para proyectos escalables, **Express Generator** crea automáticamente la estructura base (`routes`, `views`, `public`).
 La clase culmina con misiones prácticas para configurar `npm init`, Git, `.gitignore` y el primer servidor básico en el puerto `3000` con Express.
-
